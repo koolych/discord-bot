@@ -15,6 +15,7 @@ class Bot(commands.Bot):
             intents = intents)
     
     async def setup_hook(self):
+        cog_count = 0
         for file in utils.Cogs.get():
             if file.is_dir():
                 continue
@@ -22,14 +23,23 @@ class Bot(commands.Bot):
             extension = f"cogs.{file.stem}"
             await self.load_extension(extension)
             print(f"Loaded \"{extension}\"!")
+            cog_count += 1
+
+        if cog_count == 0:
+            print("No loaded cogs.")
+
+    async def on_message(self, message):
+        if message.author.bot:
             return
-        
-        print("No loaded cogs.")
-    
+
     async def on_ready(self):
         await self.tree.sync()
         await self.tree.sync(guild=discord.Object(1465563872458047653))
         print(f"Proudly presented to you by Discord.py {discord.__version__}\nBot: {self.user}\nID: {self.user.id}")
         if self.user.avatar:
             utils.bot_avatar = self.user.avatar.url
-
+        
+        await self.change_presence(
+            activity = discord.Game("Ping-Pong"),
+            status = discord.Status.online
+        )
