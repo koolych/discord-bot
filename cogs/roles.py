@@ -53,7 +53,7 @@ class roles(commands.GroupCog, name = "roles"):
             elif interaction.user.guild_permissions.manage_roles:
                 raise NoManageRoles()
             
-            await interaction.edit_original_response(content = MayDoSo().__str__())
+            await interaction.edit_original_response(content = "You have the permission to do that.")
 
         except Exception as error:
             await interaction.edit_original_response(content = error.__str__())
