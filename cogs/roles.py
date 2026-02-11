@@ -1,6 +1,6 @@
 import asyncio
 import utils
-from utils import NoManageRoles, MayDoSo
+from utils import NoManageRoles
 import discord
 from discord import app_commands
 from discord.ext import commands
