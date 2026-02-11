@@ -35,7 +35,7 @@ class roles(commands.GroupCog, name = "roles"):
 
             await interaction.edit_original_response(content=f"The role {role.mention} has been created and assigned to you!")
         except ValueError:
-            await interaction.edit_original_response(content="Invalid colour format. Please use a hex code (e.g., `#FF5733` or `FF5733`).")
+            await interaction.edit_original_response(content="Invalid colour format. Please use a hex code (`#FFFFFF`).")
 
     @app_commands.command(
             name = "assign",
