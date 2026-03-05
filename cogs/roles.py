@@ -8,7 +8,7 @@ from utils import NoManageRoles
 class Roles(commands.GroupCog, name = "roles"):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
-        self.config = utils.Config.read()
+        self.config = utils.Config.read(None)
 
     @app_commands.command(
         name = "add",

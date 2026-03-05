@@ -3,7 +3,7 @@ import os
 
 def main():
     os.system("cls" if os.name == "nt" else "clear")
-    config = utils.Config.read()
+    config = utils.Config.read(None)
     utils.bot.run(config["token"], log_handler = None)
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ from discord.ext import commands
 class ping(commands.Cog, name = "ping"):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
-        self.config = utils.Config.read()
+        self.config = utils.Config.read(None)
 
     @app_commands.command(
         name = "ping",
