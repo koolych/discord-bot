@@ -31,6 +31,13 @@ class Starboard(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload: discord.RawReactionActionEvent):
+        await self._update_starboard(payload)
+
+    @commands.Cog.listener()
+    async def on_raw_reaction_remove(self, payload: discord.RawReactionActionEvent):
+        await self._update_starboard(payload)
+
+    async def _update_starboard(self, payload: discord.RawReactionActionEvent):
         if str(payload.emoji) != self.star_emoji:
             return
 
@@ -46,48 +53,16 @@ class Starboard(commands.Cog):
         except discord.NotFound:
             return
 
-        if message.author.bot or not message.guild:
-            return
-
-        for reaction in message.reactions:
-            if str(reaction.emoji) == self.star_emoji:
-                if reaction.count >= self.star_threshold:
-                    await self.post_to_starboard(message, reaction.count)
-                break
-
-    @commands.Cog.listener()
-    async def on_raw_reaction_remove(self, payload: discord.RawReactionActionEvent):
-        if str(payload.emoji) != self.star_emoji:
-            return
-
-        if not self.starboard_channel_id:
-            return
-
-        message_id_str = str(payload.message_id)
-        if message_id_str not in self.starboard_messages:
-            return
-
-        channel = self.bot.get_channel(payload.channel_id)
-        if not channel:
-            return
-
-        try:
-            message = await channel.fetch_message(payload.message_id)
-        except discord.NotFound:
-            del self.starboard_messages[message_id_str]
-            self.save_starboard_messages()
-            return
-
         star_count = 0
         for reaction in message.reactions:
             if str(reaction.emoji) == self.star_emoji:
                 star_count = reaction.count
                 break
 
-        if star_count < self.star_threshold:
-            await self.remove_from_starboard(message)
-        else:
+        if star_count >= self.star_threshold:
             await self.post_to_starboard(message, star_count)
+        else:
+            await self.remove_from_starboard(message)
 
     async def post_to_starboard(self, message: discord.Message, star_count: int):
         starboard_channel = self.bot.get_channel(self.starboard_channel_id)
