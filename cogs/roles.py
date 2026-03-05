@@ -1,15 +1,15 @@
 import asyncio
-import utils
-from utils import NoManageRoles
 import discord
 from discord import app_commands
 from discord.ext import commands
+import utils
+from utils import NoManageRoles
 
-class roles(commands.GroupCog, name = "roles"):
+class Roles(commands.GroupCog, name = "roles"):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
         self.config = utils.Config.read()
-    
+
     @app_commands.command(
         name = "add",
         description = "Give out a custom role for yourself."
@@ -31,11 +31,11 @@ class roles(commands.GroupCog, name = "roles"):
                 permissions=discord.Permissions.none())
             await interaction.user.add_roles(role)
 
-            
-
-            await interaction.edit_original_response(content=f"The role {role.mention} has been created and assigned to you!")
+            await interaction.edit_original_response(
+                content=f"The role {role.mention} has been created and assigned to you!")
         except ValueError:
-            await interaction.edit_original_response(content="Invalid colour format. Please use a hex code (`#FFFFFF`).")
+            await interaction.edit_original_response(
+                content="Invalid colour format. Please use a hex code (`#FFFFFF`).")
 
     @app_commands.command(
             name = "assign",
@@ -52,11 +52,12 @@ class roles(commands.GroupCog, name = "roles"):
                 pass
             elif interaction.user.guild_permissions.manage_roles:
                 raise NoManageRoles()
-            
-            await interaction.edit_original_response(content = "You have the permission to do that.")
 
-        except Exception as error:
-            await interaction.edit_original_response(content = error.__str__())
+            await interaction.edit_original_response(
+                content = "You have the permission to do that.")
+
+        except NoManageRoles as error:
+            await interaction.edit_original_response(content = str(error))
 
     @app_commands.command(
             name = "list",
@@ -107,7 +108,7 @@ class roles(commands.GroupCog, name = "roles"):
         role: discord.Role
     ):
         await interaction.response.send_message(content = "Test")
-    
+
     @app_commands.command(
         name = "remove",
         description = "Remove a role"
@@ -120,4 +121,4 @@ class roles(commands.GroupCog, name = "roles"):
         await interaction.response.send_message(content = "Test")
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(roles(bot))
+    await bot.add_cog(Roles(bot))
