@@ -8,6 +8,7 @@ class Bot(commands.Bot):
         intents.presences = True
         intents.members = True
         intents.guilds = True
+        intents.reactions = True
         intents.message_content = True
 
         super().__init__(
