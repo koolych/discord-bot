@@ -1,3 +1,5 @@
+launch.json
 config.json
+starboard_messages.json
 
 *.pyc
