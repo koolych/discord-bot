@@ -72,27 +72,44 @@ class Roles(commands.GroupCog, name = "roles"):
         ))
         fetch_roles = await interaction.guild.fetch_roles()
         server_roles = ''
+        special_server_roles = ''
+        admin_server_roles = ''
+        special_role_members = 0
+
         total_valid_roles = 0
         bot_roles = 0
+
         for role in fetch_roles:
             if role.is_default():
                 pass
             elif role.is_bot_managed():
                 bot_roles += 1
-            elif not(role.managed):
-                server_roles += f"{role.mention}\n> {role.members.__len__()} Members have it\n"
+            elif role.permissions.kick_members:
+                admin_server_roles += f"{role.mention}\n> {len(role.members)} Members have it\n"
+                total_valid_roles += 1
+            elif not role.managed:
+                special_server_roles += f"{role.mention} "
+                special_role_members += len(role.members)
                 total_valid_roles += 1
             else:
-                server_roles += f"{role.mention}\n> {role.members.__len__()} Members have it\n"
-                server_roles += "-# Get one for yourself using Linked Roles!"
+                server_roles += f"{role.mention}\n> {len(role.members)} Members have it\n"
+                server_roles += "-# Get one for yourself using Linked Roles!\n\n"
                 total_valid_roles += 1
-            server_roles += "\n"
 
         await asyncio.sleep(1)
 
+        server_roles += admin_server_roles
+        server_roles += "-# Be cool with everyone! (to get these)"
+        server_roles += "\n"
+
         await interaction.edit_original_response(content=None, embed=discord.Embed(
             title=f"{interaction.guild.name} Roles: {total_valid_roles}",
-            description=f"{server_roles}\nBot Managed Roles: {bot_roles}"
+            description=f"{server_roles}\n"+
+            "==== Special Roles! ==== \n"+
+            f"{special_server_roles}\n"+
+            "========================\n"+
+            "-# Use </roles add:1467783938067005744>\n\n"+
+            f"Bot Managed Roles: {bot_roles}"
         ))
 
     @app_commands.describe(
