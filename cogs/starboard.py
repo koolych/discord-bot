@@ -86,8 +86,15 @@ class Starboard(commands.Cog):
             inline=False
             )
 
+        image_set = False
         if message.attachments:
-            embed.set_image(url=message.attachments[0].url)
+            for attachment in message.attachments:
+                if not image_set and attachment.content_type and attachment.content_type.startswith('image/'):
+                    embed.set_image(url=attachment.url)
+                    image_set = True
+                else:
+                    # Add a field for other attachments or subsequent images
+                    embed.add_field(name="Attachment", value=f"[{attachment.filename}]({attachment.url})", inline=False)
 
         content = f"{self.star_emoji} **{star_count}** | {message.channel.mention}"
 
