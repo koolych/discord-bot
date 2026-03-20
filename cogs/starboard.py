@@ -95,7 +95,6 @@ class Starboard(commands.Cog):
                     embed.set_image(url=attachment.url)
                     first_media_set = True
                 else:
-                    # Add other attachments as fields
                     embed.add_field(
                         name="Attachment",
                         value=f"[{attachment.filename}]({attachment.url})",
