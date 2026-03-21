@@ -41,6 +41,8 @@ class Bot(commands.Bot):
             utils.bot_avatar = self.user.avatar.url
         
         await self.change_presence(
-            activity = discord.Game("Ping-Pong"),
+            activity = discord.Activity(
+                name=f"{len(self.fetch_guilds)} Servers",
+                type=discord.ActivityType.listening),
             status = discord.Status.online
         )
