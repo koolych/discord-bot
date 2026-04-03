@@ -42,7 +42,7 @@ class Bot(commands.Bot):
         
         await self.change_presence(
             activity = discord.Activity(
-                name=f"{len(self.fetch_guilds)} Servers",
+                name=f"{len(self.guilds)} Servers",
                 type=discord.ActivityType.listening),
             status = discord.Status.online
         )
