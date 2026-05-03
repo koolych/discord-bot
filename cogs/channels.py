@@ -1,13 +1,31 @@
+import json
+import os
 import utils
 import discord
 from discord import app_commands
 from discord.ext import commands
 
+GUILD_FILE = "guild.json"
+
 class channels(commands.GroupCog, name = "channels"):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
         self.config = utils.Config.read(None)
+        self.roles = self.load_subscription_roles()
+        
+    def load_subscription_roles(self):
+        if os.path.exists(GUILD_FILE):
+            with open(GUILD_FILE, 'r', encoding="utf-8") as f:
+                try:
+                    return json.load(f)
+                except json.JSONDecodeError:
+                    return {}
+        return {}
 
+    def save_subscription_roles(self):
+        with open(GUILD_FILE, 'w', encoding="utf-8") as f:
+            json.dump(self.roles, f, indent=4)
+    
     @app_commands.command(
         name = "test",
         description = "Give it a try!"
