@@ -12,7 +12,7 @@ class guild(commands.Cog):
         await self._sendMessage(payload)
 
     async def _sendMessage(self, payload: discord.RawMemberRemoveEvent):
-        debug_channel = self.bot.get_channel(int(self.config.get("starboard_channel_id")))
+        debug_channel = self.bot.get_channel(int(self.config.get("debug_channel_id")))
         if not debug_channel:
             return
         
