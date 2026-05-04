@@ -46,3 +46,19 @@ class Bot(commands.Bot):
                 type=discord.ActivityType.listening),
             status = discord.Status.online
         )
+
+class Buttons(discord.ui.view):
+    role = discord.Object
+    def __init__(self, *, timeout=30, label: str, role: discord.Role):
+        self.role = role
+        super().__init__(timeout=timeout)
+
+    @discord.ui.button(label="Get Role!",style=discord.ButtonStyle.primary)
+    async def add_sub_roles(
+        self,
+        button: discord.ui.Button,
+        interaction: discord.Interaction,
+        role: discord.Role):
+        await interaction.response.send_message(
+            ephemeral=True,
+            content=f"Added {role.mention} to you!\nYou are now subscribed to this channel.")
