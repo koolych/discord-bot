@@ -49,7 +49,7 @@ class Bot(commands.Bot):
 
 class Buttons(discord.ui.view):
     role = discord.Object
-    def __init__(self, *, timeout=30, label: str, role: discord.Role):
+    def __init__(self, *, timeout=30, role: discord.Role):
         self.role = role
         super().__init__(timeout=timeout)
 
@@ -58,7 +58,7 @@ class Buttons(discord.ui.view):
         self,
         button: discord.ui.Button,
         interaction: discord.Interaction,
-        role: discord.Role):
+        role = role):
         await interaction.response.send_message(
             ephemeral=True,
             content=f"Added {role.mention} to you!\nYou are now subscribed to this channel.")
