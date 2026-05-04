@@ -47,7 +47,7 @@ class Bot(commands.Bot):
             status = discord.Status.online
         )
 
-class Buttons(discord.ui.view):
+class Buttons(discord.ui.View):
     role = discord.Object
     def __init__(self, *, timeout=30, role: discord.Role):
         self.role = role
