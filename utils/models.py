@@ -56,9 +56,10 @@ class Buttons(discord.ui.view):
     @discord.ui.button(label="Get Role!",style=discord.ButtonStyle.primary)
     async def add_sub_roles(
         self,
-        button: discord.ui.Button,
         interaction: discord.Interaction,
-        role = role):
+        button: discord.ui.Button,
+    ):
+        await interaction.user.add_roles(self.role)
         await interaction.response.send_message(
             ephemeral=True,
-            content=f"Added {role.mention} to you!\nYou are now subscribed to this channel.")
+            content=f"Added {self.role.mention} to you!\nYou are now subscribed to this channel.")
