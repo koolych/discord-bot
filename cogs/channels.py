@@ -56,6 +56,10 @@ class channels(commands.GroupCog, name = "channels"):
             await interaction.edit_original_response(
                 content="No users or roles with explicit **\"Manage Channel\"** permission found in this channel's overwrites.")
     
+    @app_commands.command(
+        name = "add",
+        description = "Give it a try!"
+    )
     async def subrole(
             self,
             interaction: discord.Interaction,
