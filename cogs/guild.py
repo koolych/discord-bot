@@ -20,7 +20,7 @@ class guild(commands.Cog):
         await debug_channel.send(content=payload)
     
     @app_commands.command(
-        name = "guild info",
+        name = "guildinfo",
         description = "Give it a try!"
     )
     async def guild_info(
