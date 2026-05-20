@@ -31,7 +31,7 @@ class guild(commands.Cog):
             await interaction.response.defer(thinking=True)
             owner = interaction.guild.owner
             if not owner:
-                owner = await interaction.guild.fetch_owner()
+                owner = await interaction.guild.fetch_member(interaction.guild.owner_id)
 
             await interaction.edit_original_response(content=f"{owner.mention} (`{interaction.guild.owner_id}`)"
                                                 + " is owner of this server!\n")
