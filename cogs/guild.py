@@ -28,10 +28,15 @@ class guild(commands.Cog):
         interaction: discord.Interaction
     ):
         try:
-            await interaction.response.send_message(content=f"{interaction.guild.owner.mention} (`{interaction.guild.owner_id}`)"
+            await interaction.response.defer(thinking=True)
+            owner = interaction.guild.owner
+            if not owner:
+                owner = await interaction.guild.fetch_owner()
+
+            await interaction.edit_original_response(content=f"{owner.mention} (`{interaction.guild.owner_id}`)"
                                                 + " is owner of this server!\n")
         except Exception as e:
-            await interaction.response.send_message(content="Couldn't fetch info.\n"
+            await interaction.edit_original_response(content="Couldn't fetch info.\n"
                                                     + "Why:\n`" + str(e) + "`")
 
 async def setup(bot: commands.Bot) -> None:
