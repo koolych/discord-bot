@@ -27,8 +27,12 @@ class guild(commands.Cog):
         self,
         interaction: discord.Interaction
     ):
-        await interaction.response.send_message(content=f"{interaction.guild.owner.mention} (`{interaction.guild.owner_id}`)"
-                                                + "is owner of this server!\n")
+        try:
+            await interaction.response.send_message(content=f"{interaction.guild.owner.mention} (`{interaction.guild.owner_id}`)"
+                                                + " is owner of this server!\n")
+        except Exception as e:
+            await interaction.response.send_message(content="Couldn't fetch info.\n"
+                                                    + "Why:\n`" + str(e) + "`")
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(guild(bot))
